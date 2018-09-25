@@ -64,13 +64,13 @@ const InputComponent = {
 
       this.fieldErrors = this.validateForm(this.fields);
 
-      if (Object.keys(this.fieldErrors).length) return;
+      if (Object.keys(this.fieldErrors).length > 0) return;
 
       this.items.push(this.fields.newItem);
-      this.newItem = '';
-      this.email = '';
-      this.urgency = '';
-      this.termsAndConditions = false;
+      this.fields.newItem = '';
+      this.fields.email = '';
+      this.fields.urgency = '';
+      this.fields.termsAndConditions = false;
     },
     validateForm(fields) {
       const errors = {};
@@ -78,26 +78,27 @@ const InputComponent = {
       if (!fields.newItem) { 
         errors.newItem = 'New item required';
       }
-      if (!fields.email) { 
-        errors.email = 'Email required.';
-      } 
-      if (fields.email && !this.isEmail(fields.email)) {
-        errors.email = 'Email for must be test@test.com';
+
+      if (!fields.email) {
+        errors.email = 'Email is required';
       }
-      // if (!fields.email && !this.isEmail(fields.email)) {
-      //   errors.email = 'Email required. Eg. test@test.com';
-      // }
+
       if (!fields.urgency) { 
         errors.urgency = 'Specify Item\'s urgency';
       }
+
       if (!fields.termsAndConditions) { 
         errors.termsAndConditions = 'Accept Terms and Conditions to proceed';
       }
+
+      if (fields.email && !this.isEmail(fields.email)) {
+        errors.email = 'Email for must be test@test.com';
+      } 
       
       return errors;
     },
     isEmail(email) {
-      const re = /\S+@\S+\.S+/;
+      const re = /\S+@\S+\.\S+/;
       return re.test(email);
     }
   }
