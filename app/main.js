@@ -8,17 +8,17 @@ const ButtonRow = {
     </div>
   `,
   methods: {
-    onHoodieClick() {
-      console.log('Hoodie');
+    onHoodieClick(evt) {
+      console.log('Hoodie', evt);
     },
-    onFittedCapClick() {
-      console.log('Fitted Cap');
+    onFittedCapClick(evt) {
+      console.log('Fitted Cap', evt);
     },
-    onJacketClick() {
-      console.log('Jacket');
+    onJacketClick(evt) {
+      console.log('Jacket', evt);
     },
-    onTeeClick() {
-      console.log('Tee');
+    onTeeClick(evt) {
+      console.log('Tee', evt);
     },
   },
 }
