@@ -1,47 +1,38 @@
-const ButtonRow = {
+const InputComponent = {
   template: `
-    <div>
-      <button 
-        class="ui button" 
-        @click="onButtonClick" 
-        name="button-hoodie" 
-        value="fullstack-hoodie">
-        Hoodie
-      </button>
-      <button 
-        class="ui button" 
-        @click="onButtonClick" 
-        name="button-tee" 
-        value="fullstack-tee">
-        Hoodie
-      </button>
-      <button 
-        class="ui button" 
-        @click="onButtonClick" 
-        name="button-fitted-cap" 
-        value="fullstack-fitted-cap">
-        Hoodie
-      </button>
-      <button 
-        class="ui button" 
-        @click="onButtonClick" 
-        name="button-jacket" 
-        value="fullstack-jacket">
-        Hoodie
-      </button>
+    <div class="input-form">
+      <form class="ui form" @submit="submitForm">
+        <div class="field">
+          <input type="text" v-model="newItem" placeholder="Add an item">
+        </div>
+        <button class="ui button">Submit</button>
+      </form>
+      <div class="ui segment">
+        <h4 class="ui header">Items</h4>
+        <ul class="item" v-for="item in items">
+          <li>{{ item }} </li>
+        </ul>
+      </div>
     </div>
   `,
+  data: () => ({
+    newItem: '',
+    items: []
+  }),
   methods: {
-    onButtonClick(evt) {
-      const button = evt.target;
-      console.log(`The user clicked ${button.name}: ${button.value}`);
+    submitForm(evt) {
+      this.items.push(this.newItem);
+      this.newItem = ''
+      evt.preventDefault();
     }
   },
 }
 
+
+
 new Vue({
   el: '#app',
   components: {
-    'button-row': ButtonRow,
+    'InputComponent': InputComponent,
   }
 })
