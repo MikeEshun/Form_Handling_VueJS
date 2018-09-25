@@ -11,7 +11,7 @@ const InputComponent = {
         <div class="field">
           <label>Email</label>
           <input type="text" v-model="fields.email">
-          <span style="color: red;">{{ fieldErrors.emal }}</span>
+          <span style="color: red;">{{ fieldErrors.email }}</span>
         </div>
 
         <div class="field">
@@ -60,9 +60,17 @@ const InputComponent = {
   }),
   methods: {
     submitForm(evt) {
-      this.items.push(this.newItem);
-      this.newItem = ''
       evt.preventDefault();
+
+      this.fieldErrors = this.validateForm(this.fields);
+
+      if (Object.keys(this.fieldErrors).length) return;
+
+      this.items.push(this.fields.newItem);
+      this.newItem = '';
+      this.email = '';
+      this.urgency = '';
+      this.termsAndConditions = false;
     },
     validateForm(fields) {
       const errors = {};
@@ -71,7 +79,7 @@ const InputComponent = {
         errors.newItem = 'New item required';
       }
       if (!fields.email && !this.isEmail(fields.email)) { 
-        errors.email = 'Email required';
+        errors.email = 'Email required. Eg. "user@user.com" is met.';
       }
       if (!fields.urgency) { 
         errors.urgency = 'Specify Item\'s urgency';
