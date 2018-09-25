@@ -1,25 +1,41 @@
 const ButtonRow = {
   template: `
     <div>
-      <button @click="onHoodieClick" class="ui button">Hoodie</button>
-      <button @click="onTeeClick" class="ui button">Tee</button>
-      <button @click="onFittedCapClick" class="ui button">Fitted Cap</button>
-      <button @click="onJacketClick" class="ui button">Jacket</button>
+      <button 
+        class="ui button" 
+        @click="onButtonClick" 
+        name="button-hoodie" 
+        value="fullstack-hoodie">
+        Hoodie
+      </button>
+      <button 
+        class="ui button" 
+        @click="onButtonClick" 
+        name="button-tee" 
+        value="fullstack-tee">
+        Hoodie
+      </button>
+      <button 
+        class="ui button" 
+        @click="onButtonClick" 
+        name="button-fitted-cap" 
+        value="fullstack-fitted-cap">
+        Hoodie
+      </button>
+      <button 
+        class="ui button" 
+        @click="onButtonClick" 
+        name="button-jacket" 
+        value="fullstack-jacket">
+        Hoodie
+      </button>
     </div>
   `,
   methods: {
-    onHoodieClick(evt) {
-      console.log('Hoodie', evt);
-    },
-    onFittedCapClick(evt) {
-      console.log('Fitted Cap', evt);
-    },
-    onJacketClick(evt) {
-      console.log('Jacket', evt);
-    },
-    onTeeClick(evt) {
-      console.log('Tee', evt);
-    },
+    onButtonClick(evt) {
+      const button = evt.target;
+      console.log(`The user clicked ${button.name}: ${button.value}`);
+    }
   },
 }
 
