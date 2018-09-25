@@ -78,9 +78,15 @@ const InputComponent = {
       if (!fields.newItem) { 
         errors.newItem = 'New item required';
       }
-      if (!fields.email && !this.isEmail(fields.email)) { 
-        errors.email = 'Email required. Eg. "user@user.com" is met.';
+      if (!fields.email) { 
+        errors.email = 'Email required.';
+      } 
+      if (fields.email && !this.isEmail(fields.email)) {
+        errors.email = 'Email for must be test@test.com';
       }
+      // if (!fields.email && !this.isEmail(fields.email)) {
+      //   errors.email = 'Email required. Eg. test@test.com';
+      // }
       if (!fields.urgency) { 
         errors.urgency = 'Specify Item\'s urgency';
       }
