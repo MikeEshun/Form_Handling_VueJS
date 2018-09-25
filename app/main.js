@@ -3,7 +3,27 @@ const InputComponent = {
     <div class="input-form">
       <form class="ui form" @submit="submitForm">
         <div class="field">
-          <input type="text" v-model="newItem" placeholder="Add an item">
+          <label>New Item</label>
+          <input type="text" v-model="fields.newItem">
+        </div>
+        <div class="field">
+          <label>Email</label>
+          <input type="text" v-model="fields.email">
+        </div>
+        <div class="field">
+          <label>Urgency</label>
+          <select class="ui fluid search dropdown" v-model="fields.urgency">
+            <option disabled value="">Please select one</option>
+            <option>Nonessential</option>
+            <option>Moderate</option>
+            <option>Urgent</option>
+          </select>
+        </div>
+        <div class="field">
+          <div class="ui checkbox">
+            <input type="checkbox" v-model="fields.termsAndConditions"/>
+            <label><strong>I accept the terms and conditions</strong></label>
+          </div>
         </div>
         <button class="ui button">Submit</button>
       </form>
@@ -16,8 +36,13 @@ const InputComponent = {
     </div>
   `,
   data: () => ({
-    newItem: '',
-    items: []
+    fields: {
+      newItem: '',
+      email: '',
+      urgency: '',
+      termsAndConditions: false,
+    },
+    items: [],
   }),
   methods: {
     submitForm(evt) {
