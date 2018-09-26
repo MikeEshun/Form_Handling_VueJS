@@ -69,6 +69,8 @@ const InputComponent = {
       termsAndConditions: undefined,
     },
     items: [],
+    loading: false,
+    saveStatus: 'READY',
   }),
   computed: {
     isNewItemInputExceeded() {
@@ -89,42 +91,77 @@ const InputComponent = {
 
       if (Object.keys(this.fieldErrors).length > 0) return;
 
-      this.items.push(this.fields.newItem);
-      this.fields.newItem = '';
-      this.fields.email = '';
-      this.fields.urgency = '';
-      this.fields.termsAndConditions = false;
+      const items = [...this.items, this.fields.newItem];
+
+      this.saveStatus = 'SAVING';
+      apiClient.saveItems(items)
+        .then(() => {
+          this.items = items;
+          this.fields.newItem = '';
+          this.fields.email = '';
+          this.fields.urgency = '';
+          this.fields.termsAndConditions = false;
+          this.saveStatus = 'SUCCESS';
+        })
+        .catch((err) => {
+          console.log(err);
+          this.saveStatus = 'ERROR';
+        })
     },
     validateForm(fields) {
       const errors = {};
 
-      if (!fields.newItem) { 
-        errors.newItem = 'New item required';
-      }
+      if (!fields.newItem) errors.newItem = 'New item required';
 
-      if (!fields.email) {
-        errors.email = 'Email is required';
-      }
+      if (!fields.email) errors.email = 'Email is required';
 
-      if (!fields.urgency) { 
-        errors.urgency = 'Specify Item\'s urgency';
-      }
+      if (!fields.urgency) errors.urgency = 'Specify Item\'s urgency';
 
-      if (!fields.termsAndConditions) { 
-        errors.termsAndConditions = 'Accept Terms and Conditions to proceed';
-      }
+      if (!fields.termsAndConditions) errors.termsAndConditions = 'Accept Terms and Conditions to proceed';
 
       if (fields.email && !this.isEmail(fields.email)) {
         errors.email = 'Email for must be of format test@test.com';
-      } 
-      
+      }
+
       return errors;
     },
     isEmail(email) {
       const re = /\S+@\S+\.\S+/;
       return re.test(email);
     }
-  }
+  },
+  created() {
+    this.loading = true,
+    apiClient.loadItems().then((items) => {
+      this.items = items;
+      this.loading = false;
+    })
+  },
+}
+
+
+let apiClient = {
+  loadItems: function () {
+    return {
+      then: function (cb) {
+        setTimeout(() => {
+          cb(JSON.parse(localStorage.items || '[]'));
+        }, 1000);
+      },
+    };
+  },
+  saveItems: function (items) {
+    const success = !!(this.count++ % 2);
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (!success) return reject({ success });
+        localStorage.items = JSON.stringify(items);
+        return resolve({ success });
+      }, 1000);
+    });
+  },
+
+  count: 1,
 }
 
 
@@ -132,5 +169,5 @@ new Vue({
   el: '#app',
   components: {
     'InputComponent': InputComponent,
-  }
+  },
 })
