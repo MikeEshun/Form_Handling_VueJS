@@ -5,7 +5,11 @@ const InputComponent = {
         <div class="field">
           <label>New Item</label>
           <input type="text" v-model="fields.newItem">
+          <span style="float: right;">{{ fields.newItem.length }} / 20</span>
           <span style="color: red;">{{ fieldErrors.newItem }}</span>
+          <span style="color: red;" v-if="isNewItemInputExceeded">
+            Must be under twenty characters
+          </span>
         </div>
 
         <div class="field">
@@ -23,6 +27,9 @@ const InputComponent = {
             <option>Urgent</option>
           </select>
           <span style="color: red;">{{ fieldErrors.urgency }}</span>
+          <span style="color: red;" v-if="isNotUrgent">
+            Must be Moderate or Urgent
+          </span>
         </div>
 
         <div class="field">
@@ -33,7 +40,9 @@ const InputComponent = {
           </div>
         </div>
 
-        <button class="ui button">Submit</button>
+        <button class="ui button" :disabled="isNewItemInputExceeded || isNotUrgent">
+          Submit
+        </button>
       </form>
       <div class="ui segment">
         <h4 class="ui header">Items</h4>
@@ -58,6 +67,14 @@ const InputComponent = {
     },
     items: [],
   }),
+  computed: {
+    isNewItemInputExceeded() {
+      return this.fields.newItem.length > 20;
+    },
+    isNotUrgent() {
+      return this.fields.urgency === 'Nonessential';
+    },
+  },
   methods: {
     submitForm(evt) {
       evt.preventDefault();
