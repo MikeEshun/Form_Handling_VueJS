@@ -48,7 +48,7 @@ const InputComponent = {
 
         <button class="ui button" 
           v-if="saveStatus === 'SAVING'"
-          :disabled="isNewItemInputExceeded || isNotUrgent">
+          disabled="isNewItemInputExceeded || isNotUrgent">
           Saving...
         </button>
 
