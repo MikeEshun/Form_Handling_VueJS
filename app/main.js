@@ -54,7 +54,7 @@ const InputComponent = {
 
         <button class="ui button" 
           v-if="saveStatus === 'SUCCESS'"
-          :disabled="isNewItemInputExceeded || isNotUrgent || isEmailFormatValid">
+          :disabled="isNewItemInputExceeded || isNotUrgent">
           Saved! Submit another
         </button>
 
@@ -187,19 +187,6 @@ let apiClient = {
 
   count: 1,
 }
-
-
-/*
-use console.log(
-  setTimeout(() => {
-    'saveStatus'
-  }, 1000)
-)
-
-to render error, saving or saved status for  second
-
---saveStatus [error, saved, saving]
-*/
 
 
 new Vue({
