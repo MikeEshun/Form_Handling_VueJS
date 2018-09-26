@@ -16,9 +16,11 @@ const InputComponent = {
           <label>Email</label>
           <input type="text" v-model="fields.email">
           <span style="color: red;">{{ fieldErrors.email }}</span>
-          <span style="color: red;" v-if="isEmailFormatValid">
-            Must be of the format test@test.com
-          </span>
+          <div>
+            <span style="color: red;" v-if="isEmailFormatValid">
+              Must be of the format test@test.com
+            </span>
+          </div>
         </div>
 
         <div class="field">
@@ -30,9 +32,10 @@ const InputComponent = {
             <option>Urgent</option>
           </select>
           <span style="color: red;">{{ fieldErrors.urgency }}</span>
-          <span style="color: red;" v-if="isNotUrgent">
-            Must be Moderate or Urgent
-          </span>
+          <div>
+            <span style="color: red;" v-if="isNotUrgent">
+              Must be Moderate or Urgent
+            </span></div>
         </div>
 
         <div class="field">
@@ -43,14 +46,35 @@ const InputComponent = {
           </div>
         </div>
 
-        <button class="ui button" :disabled="isNewItemInputExceeded || isNotUrgent">
+        <button class="ui button" 
+          v-if="saveStatus === 'SAVING'"
+          :disabled="isNewItemInputExceeded || isNotUrgent">
+          Saving...
+        </button>
+
+        <button class="ui button" 
+          v-if="saveStatus === 'SUCCESS'"
+          :disabled="isNewItemInputExceeded || isNotUrgent">
+          Saved! Submit another
+        </button>
+
+        <button class="ui button" 
+          v-if="saveStatus === 'ERROR'"
+          :disabled="isNewItemInputExceeded || isNotUrgent">
+          Saved failed - Retry
+        </button>
+
+        <button class="ui button" 
+          v-if="saveStatus === 'READY'"
+          :disabled="isNewItemInputExceeded || isNotUrgent">
           Submit
         </button>
       </form>
       <div class="ui segment">
         <h4 class="ui header">Items</h4>
-        <ul class="item" v-for="item in items">
-          <li>{{ item }} </li>
+        <ul>
+          <div class="ui active inline loader" v-if="loading"></div>
+          <li class="item" v-for="item in items">{{ item }} </li>
         </ul>
       </div>
     </div>
@@ -120,7 +144,7 @@ const InputComponent = {
       if (!fields.termsAndConditions) errors.termsAndConditions = 'Accept Terms and Conditions to proceed';
 
       if (fields.email && !this.isEmail(fields.email)) {
-        errors.email = 'Email for must be of format test@test.com';
+        errors.email = 'Must be of format test@test.com';
       }
 
       return errors;
@@ -163,6 +187,19 @@ let apiClient = {
 
   count: 1,
 }
+
+
+/*
+use console.log(
+  setTimeout(() => {
+    'saveStatus'
+  }, 1000)
+)
+
+to render error, saving or saved status for  second
+
+--saveStatus [error, saved, saving]
+*/
 
 
 new Vue({
