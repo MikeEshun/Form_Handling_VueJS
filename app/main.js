@@ -97,7 +97,7 @@ const InputComponent = {
     onInputChange(evt) {
       const element = evt.target;
 
-      let value = element.name === 'TERMS_AND_CONDITIONS' ? element.checked : element.value;
+      const value = element.name === 'TERMS_AND_CONDITIONS' ? element.checked : element.value;
       
       this.$store.commit(`UPDATE_${element.name}`, value);
     },
