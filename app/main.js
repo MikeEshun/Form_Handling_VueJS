@@ -16,6 +16,9 @@ const InputComponent = {
           <label>Email</label>
           <input type="text" v-model="fields.email">
           <span style="color: red;">{{ fieldErrors.email }}</span>
+          <span style="color: red;" v-if="isEmailFormatValid">
+            Must be of the format test@test.com
+          </span>
         </div>
 
         <div class="field">
@@ -74,6 +77,9 @@ const InputComponent = {
     isNotUrgent() {
       return this.fields.urgency === 'Nonessential';
     },
+    isEmailFormatValid() {
+      return this.fields.email.length === 1;
+    }
   },
   methods: {
     submitForm(evt) {
@@ -109,7 +115,7 @@ const InputComponent = {
       }
 
       if (fields.email && !this.isEmail(fields.email)) {
-        errors.email = 'Email for must be test@test.com';
+        errors.email = 'Email for must be of format test@test.com';
       } 
       
       return errors;
