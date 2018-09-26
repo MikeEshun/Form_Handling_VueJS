@@ -33,7 +33,7 @@ const mutations = {
 }
 
 const actions = {
-  loadItems(context, payload) {
+  loadItems(context) {
     return new Promise((resolve, reject) => {
       apiClient.loadItems()
         .then((items) => {
@@ -70,17 +70,8 @@ const getters = {
   items: state => state.items
 }
 
-
-
-window.store = new Vuex.Store({
-  state,
-  mutations,
-  actions,
-  getters
-});
-
 let apiClient = {
-  loadItems: () => {
+  loadItems() {
     return {
       then: (cb) => {
         setTimeout(() => {
@@ -89,7 +80,7 @@ let apiClient = {
       },
     };
   },
-  saveItems: (items) => {
+  saveItems(items) {
     const success = !!(this.count++ % 2);
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -102,3 +93,10 @@ let apiClient = {
 
   count: 1,
 }
+
+window.store = new Vuex.Store({
+  state,
+  mutations,
+  actions,
+  getters
+});
