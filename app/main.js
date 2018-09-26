@@ -16,11 +16,11 @@ const InputComponent = {
           <label>Email</label>
           <input type="text" v-model="fields.email">
           <span style="color: red;">{{ fieldErrors.email }}</span>
-          <div>
+          <!-- <div>
             <span style="color: red;" v-if="isEmailFormatValid">
               Must be of the format test@test.com
             </span>
-          </div>
+          </div> -->
         </div>
 
         <div class="field">
@@ -48,25 +48,25 @@ const InputComponent = {
 
         <button class="ui button" 
           v-if="saveStatus === 'SAVING'"
-          disabled="isNewItemInputExceeded || isNotUrgent">
+          disabled="isNewItemInputExceeded || isNotUrgen || isEmailFormatValidt">
           Saving...
         </button>
 
         <button class="ui button" 
           v-if="saveStatus === 'SUCCESS'"
-          :disabled="isNewItemInputExceeded || isNotUrgent">
+          :disabled="isNewItemInputExceeded || isNotUrgent || isEmailFormatValid">
           Saved! Submit another
         </button>
 
         <button class="ui button" 
           v-if="saveStatus === 'ERROR'"
-          :disabled="isNewItemInputExceeded || isNotUrgent">
+          :disabled="isNewItemInputExceeded || isNotUrgent || isEmailFormatValid">
           Saved failed - Retry
         </button>
 
         <button class="ui button" 
           v-if="saveStatus === 'READY'"
-          :disabled="isNewItemInputExceeded || isNotUrgent">
+          :disabled="isNewItemInputExceeded || isNotUrgent || isEmailFormatValid">
           Submit
         </button>
       </form>
@@ -104,7 +104,7 @@ const InputComponent = {
       return this.fields.urgency === 'Nonessential';
     },
     isEmailFormatValid() {
-      return this.fields.email.length === 1;
+      return this.fields.email.length <= 4;
     }
   },
   methods: {
